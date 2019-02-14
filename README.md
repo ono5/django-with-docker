@@ -60,7 +60,11 @@ tree -L 2
     └── unittests.xml
 ```
 
+Dockerfile の FROM 要素に AS キーワードを付与するとマルチステージング環境にできる。
+
 * [multi-stage build](https://docs.docker.com/develop/develop-images/multistage-build/)
 
-
-
+```bash
+# --target タグは、Dockerfile の As キーワードに指定した名前を紐付ける
+docker build --target test -t todobackend-test .
+```

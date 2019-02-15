@@ -41,3 +41,30 @@ WORKDIR /app
 
 # Test entrypoint
 CMD ["python3", "manage.py", "test", "--noinput", "--settings=todobackend.settings_test"]
+
+# Relese stage
+
+FROM alpine
+LABEL application=todobackend
+
+# Install operating system dependencies
+# Test stage で、プリコンパイルした環境を再利用するので、xxxx-dev 環境は不要
+RUN apk add --no-cache python3 mariadb-client bash
+
+# Create app user
+# Group ID 1000 のグループを作成
+# User ID 1000 のユーザーを作成
+# User を Group に追加
+# User ログイン時のホームディレクトリを app に指定
+# http://raining.bear-life.com/linux/linux%E3%81%AEadduser%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%81%A7%E6%96%B0%E8%A6%8F%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B
+RUN addgroup -g 1000 app && \
+    adduser -u 1000 -G app -D app
+
+
+
+
+
+
+
+
+

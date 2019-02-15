@@ -1,6 +1,6 @@
 # Django With Django Cookbooks 
 
-#todobackend-maseter
+## todobackend-maseter
 
 ## Curl
 
@@ -29,7 +29,7 @@ curl -X PATCH -H "Content-Type: appllication/json" localhost:8000/todos/2 -d '{"
 ```
 
 ## Docker
-Docker で環境構築する際に重要なことは、Docker image に開発環境ようのモジュールやテストを含めないこと。
+Docker で環境構築する際に重要なことは、Docker image に開発環境用のモジュールやテストを含めないこと。
 
 以下の環境に分ける。
 
@@ -37,7 +37,7 @@ Docker で環境構築する際に重要なことは、Docker image に開発環
 テスト環境。ソースをコンパイルし、アプリケーションのアーキテクチャの構築やテストを実行する
 
 ### Release stage
-テスト環境からテスト済みのアプリケーションアーキテクチャをコピーする　　
+テスト環境からテスト済みのアプリケーションアーキテクチャをコピーする。  
 最小構成になるようにする。　
 
 ## テストステージの構築
@@ -68,3 +68,9 @@ Dockerfile の FROM 要素に AS キーワードを付与するとマルチス�
 # --target タグは、Dockerfile の As キーワードに指定した名前を紐付ける
 docker build --target test -t todobackend-test .
 ```
+
+# アプリケーションユーザーの作成
+デフォルトでは、Docker コンテナは root 権限で実行される。
+
+しかし、本番環境では、root ユーザーで実行するよりも独自にグループとユーザーを作成する方が望ましい、　
+

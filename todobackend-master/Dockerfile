@@ -60,6 +60,20 @@ RUN apk add --no-cache python3 mariadb-client bash
 RUN addgroup -g 1000 app && \
     adduser -u 1000 -G app -D app
 
+# Copy and install application source and pre-built dependencies
+# 環境構築用のフォルダを test 環境からコピー
+COPY --from=test --chown=app:app /build /build
+# テスト環境のソースコードをコピー
+COPY --from=test --chown=app:app /app /app
+RUN pip3 install -r /build/requirements.txt -f /build --no-index --no-cache-dir
+# 環境構築用のフォルダを削除
+RUN rm -rf /build
+
+# Set working directory and application user
+WORKDIR /app
+USER app
+
+
 
 
 

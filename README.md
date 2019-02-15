@@ -64,6 +64,7 @@ Dockerfile の FROM 要素に AS キーワードを付与するとマルチス�
 
 * [multi-stage build](https://docs.docker.com/develop/develop-images/multistage-build/)
 
+## テスト環境の実行
 ```bash
 # --target タグは、Dockerfile の As キーワードに指定した名前を紐付ける
 docker build --target test -t todobackend-test .
@@ -73,4 +74,42 @@ docker build --target test -t todobackend-test .
 デフォルトでは、Docker コンテナは root 権限で実行される。
 
 しかし、本番環境では、root ユーザーで実行するよりも独自にグループとユーザーを作成する方が望ましい、　
+
+# 本番環境の実行
+
+```bash
+docker build -t todobackend-release .
+
+# uWSGI をインストールしている
+docker run -it --rm -p 8000:8000 todobackend-release uwsgi \
+    --http=0.0.0.0:8000 --module=todobackend.wsgi --master
+```
+
+# 動作確認
+
+```bash
+ curl -s localhost:8000/todos | jq
+[
+  {
+    "url": "http://localhost:8000/todos/1",
+    "title": "Walk the dog",
+    "completed": false,
+    "order": 1
+  },
+  {
+```
+
+# Web Server Gateway Interface (WSGI)
+WSGI is a standard interface used by Python applications to interact with web server.
+
+Every Django application includes a WSGI module for communicating with a web server, which can be accessed via <application-name>.wsgi
+
+# Static ファイルの配信
+Django の開発サーバーでは、static コンテンツを自動生成するが、本番環境で WSGI のような拡張 Web Server を用いた実行では、
+自分で作成する必要がある。
+
+
+
+
+
 

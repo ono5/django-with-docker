@@ -14,7 +14,7 @@ RUN apk add --no-cache bash git
 # Install build dependencies
 # Python C の拡張モジュールを追加
 # mariadb-dev は、MYSQL client を構築する
-RUN apk add --no-cache gcc python3-dev libffi-dev musl-dev linux-headers mariadb-dev
+RUN apk add --no-cache gcc python3-dev libffi-dev musl-dev linux-headers mariadb-dev postgresql-dev
 
 # 事前コンパイルおよび事前フォーマットを行うため wheel を導入
 RUN pip3 install wheel
@@ -49,7 +49,7 @@ LABEL application=todobackend
 
 # Install operating system dependencies
 # Test stage で、プリコンパイルした環境を再利用するので、xxxx-dev 環境は不要
-RUN apk add --no-cache python3 mariadb-client bash
+RUN apk add --no-cache python3 mariadb-client postgresql-client bash
 
 # Create app user
 # Group ID 1000 のグループを作成
@@ -68,6 +68,11 @@ COPY --from=test --chown=app:app /app /app
 RUN pip3 install -r /build/requirements.txt -f /build --no-index --no-cache-dir
 # 環境構築用のフォルダを削除
 RUN rm -rf /build
+
+# Create public volume
+RUN mkdir /public
+RUN chown app:app /public
+VOLUME /public
 
 # Set working directory and application user
 WORKDIR /app

@@ -108,8 +108,22 @@ Every Django application includes a WSGI module for communicating with a web ser
 Django の開発サーバーでは、static コンテンツを自動生成するが、本番環境で WSGI のような拡張 Web Server を用いた実行では、
 自分で作成する必要がある。
 
+また、collectstatic コマンドを実行する必要もある。
 
+collectstatic は、STATIC_ROOT 設定に定義されたロケーションに静的なファイルを集めるためのコマンド。
 
+```bash
+# app user で、public フォルダを作成してから実行すること
+docker-compose down -v
+docker-compose build
+docker-compose migrate
+docker-compose run app python3 manage.py collectstatic --no-input
+docker-compose up app adm
+```
 
+# マイグレーション
 
+```bash
+docker-compose run release python3 manage.py migrate
+```
 

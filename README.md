@@ -127,3 +127,12 @@ docker-compose up app adm
 docker-compose run release python3 manage.py migrate
 ```
 
+# BATS(Bash automated test system)
+[BATS](https://github.com/sstephenson/bats)
+
+
+# Makefile
+
+
+最初のコマンドの特殊な@文字は、実行時に各コマンドをエコーすることを抑制する。
+
